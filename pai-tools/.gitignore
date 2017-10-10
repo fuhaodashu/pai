@@ -15,4 +15,17 @@ META-INF
 .settings
 .metadata
 .launch
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+.MF/pai-codegen/
+=======
 .MF
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+/pai-codegen/
+=======
+.MF
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+.MF
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git

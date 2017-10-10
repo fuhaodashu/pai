@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.message.persistence.entity.MessageRecordPo">
+	<resultMap id="MessageRecordPo" type="com.pai.biz.message.persistence.entity.MessageRecordPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="status" column="status" jdbcType="VARCHAR"/>
+		<result property="url" column="url" jdbcType="VARCHAR"/>
+		<result property="messageBody" column="message_body" jdbcType="CLOB"/>
+		<result property="messageSendTimes" column="message_send_times" jdbcType="NUMERIC"/>
+		<result property="areadlyDead" column="areadly_dead" jdbcType="VARCHAR"/>
+		<result property="msgType" column="msg_type" jdbcType="VARCHAR"/>
+		<result property="remark" column="remark" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.message.persistence.entity.MessageRecordPo">
+		INSERT INTO pai_message_record
+		(`id_`,`status`,`url`,`message_body`,`message_send_times`,`areadly_dead`,`msg_type`,`remark`,`create_time`,`update_time`)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{messageBody,jdbcType=CLOB}, #{messageSendTimes,jdbcType=NUMERIC}, #{areadlyDead,jdbcType=VARCHAR}, #{msgType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="MessageRecordPo">
+		SELECT * FROM pai_message_record 
+		WHERE 
+		`id_`=#{id}
+		LIMIT 1
+	</select>
+	
+	<select id="getLast" resultMap="MessageRecordPo">
+    	select * from pai_message_record where `id_` = (select max(`id_`) from pai_message_record)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_message_record
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="MessageRecordPo">
+		SELECT * FROM pai_message_record
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY `id_` DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="MessageRecordPo">
+		SELECT * FROM pai_message_record
+			WHERE `id_` in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY `id_` 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.message.persistence.entity.MessageRecordPo">
+		UPDATE pai_message_record SET
+		`status`=#{status,jdbcType=VARCHAR},
+		`url`=#{url,jdbcType=VARCHAR},
+		`message_body`=#{messageBody,jdbcType=CLOB},
+		`message_send_times`=#{messageSendTimes,jdbcType=NUMERIC},
+		`areadly_dead`=#{areadlyDead,jdbcType=VARCHAR},
+		`msg_type`=#{msgType,jdbcType=VARCHAR},
+		`remark`=#{remark,jdbcType=VARCHAR},
+		`create_time`=#{createTime,jdbcType=TIMESTAMP},
+		`update_time`=#{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+		`id_`=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_message_record 
+		WHERE
+		`id_`=#{id}
+	</delete>
+	
+	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE pai_message_record 
+		<set>
+			<if test="entity.status!=null">
+				`status`=#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.url!=null">
+				`url`=#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.messageBody!=null">
+				`message_body`=#{messageBody,jdbcType=CLOB},
+			</if>
+			<if test="entity.messageSendTimes!=null">
+				`message_send_times`=#{messageSendTimes,jdbcType=NUMERIC},
+			</if>
+			<if test="entity.areadlyDead!=null">
+				`areadly_dead`=#{areadlyDead,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.msgType!=null">
+				`msg_type`=#{msgType,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.remark!=null">
+				`remark`=#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.createTime!=null">
+				`create_time`=#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="entity.updateTime!=null">
+				`update_time`=#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+	</update>
+	
+	<select id="findNoDeadMessages" parameterType="java.util.Map" resultMap="MessageRecordPo">
+		SELECT `id_`,`status`,`url`,`message_send_times`,`areadly_dead`,`msg_type`,`create_time`,`update_time` FROM pai_message_record WHERE `status`=#{status,jdbcType=VARCHAR} AND `areadly_dead`='N'
+	</select>
+</mapper>

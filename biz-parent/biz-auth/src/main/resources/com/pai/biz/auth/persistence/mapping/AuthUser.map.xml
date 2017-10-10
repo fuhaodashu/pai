@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.auth.persistence.entity.AuthUserPo">
+	<resultMap id="AuthUserPo" type="com.pai.biz.auth.persistence.entity.AuthUserPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="phone" column="phone" jdbcType="VARCHAR"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="status" column="status" jdbcType="NUMERIC"/>
+		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthUserPo">
+		INSERT INTO pai_auth_user
+		(id_,name,phone,password,status,create_by,create_time,update_by,update_time)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="AuthUserPo">
+		SELECT * FROM pai_auth_user 
+		WHERE 
+		id_=#{id}
+	</select>
+	
+	<select id="getLast" resultMap="AuthUserPo">
+    	select * from pai_auth_user where id_ = (select max(id_) from pai_auth_user)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_auth_user a
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="AuthUserPo">
+		SELECT a.* FROM pai_auth_user a
+		<if test="roleId != null">
+			INNER JOIN pai_auth_role_user b ON a.id_=b.user_id_ AND b.role_id_=#{roleId}
+		</if>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id_ DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="AuthUserPo">
+		SELECT * FROM pai_auth_user
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.auth.persistence.entity.AuthUserPo">
+		UPDATE pai_auth_user SET
+		name=#{name,jdbcType=VARCHAR},
+		phone=#{phone,jdbcType=VARCHAR},
+		<if test="password != null">
+			password=#{password,jdbcType=VARCHAR},
+		</if>
+		status=#{status,jdbcType=NUMERIC},
+		create_by=#{createBy,jdbcType=VARCHAR},
+		create_time=#{createTime,jdbcType=TIMESTAMP},
+		update_by=#{updateBy,jdbcType=VARCHAR},
+		update_time=#{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_auth_user 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE pai_auth_user 
+		<set>
+			<if test="entity.name!=null">
+				name=#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.phone!=null">
+				phone=#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.password!=null">
+				password=#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.status!=null">
+				status=#{status,jdbcType=NUMERIC},
+			</if>
+			<if test="entity.createBy!=null">
+				create_by=#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.createTime!=null">
+				create_time=#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="entity.updateBy!=null">
+				update_by=#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.updateTime!=null">
+				update_time=#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+	</update>
+	
+	<select id="getAccount" parameterType="java.util.Map" resultMap="AuthUserPo">
+		select * from pai_auth_user where name=#{name} and password=#{password}
+	</select>
+</mapper>

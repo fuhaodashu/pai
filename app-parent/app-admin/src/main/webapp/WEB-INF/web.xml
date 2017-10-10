@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>pai.com</display-name>
+	 
+	<!--设置Spring的配置文件启动路径 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:conf/web-context.xml</param-value>
+	</context-param>
+	
+	<!--设置Log4j的配置文件的路径 -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/conf/log4j.xml</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>log4jRefreshInterval</param-name>
+	    <param-value>300000</param-value>
+    </context-param>
+    
+	<!-- 拦截器 -->	
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class> org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		 <init-param>
+		   <param-name>forceEncoding</param-name>
+		   <param-value>true</param-value>
+		  </init-param>
+	</filter>	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+	
+	<!-- Base-Web 统一过滤器-->	 	
+	<filter>
+		<filter-name>baseWebFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetBeanName</param-name>
+			<param-value>baseWebFilter</param-value>
+		</init-param>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>	
+	<filter-mapping>
+		<filter-name>baseWebFilter</filter-name>
+        <url-pattern>*.do</url-pattern> 		
+	</filter-mapping>
+	<!-- SpringMvc Servlet-->
+	<servlet>
+		<servlet-name>springMvc</servlet-name>
+		<servlet-class>com.pai.app.web.core.framework.web.servlet.SpringMvcServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:conf/web-controller.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springMvc</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- freemarker配置 -->
+	<servlet> 
+	    <servlet-name>freemarker</servlet-name> 
+	    <servlet-class> 
+	       freemarker.ext.servlet.FreemarkerServlet
+	    </servlet-class>
+	
+	    <init-param> 
+	        <param-name>TemplatePath</param-name> 
+	        <param-value>/</param-value> 
+	    </init-param> 
+	    <init-param> 
+	        <param-name>NoCache</param-name> 
+	        <param-value>true</param-value> 
+	    </init-param> 
+	    <init-param> 
+	        <param-name>ContentType</param-name> 
+	        <param-value>text/html; charset=UTF-8</param-value> 
+	    </init-param>
+	    <init-param> 
+	        <param-name>template_update_delay</param-name> 
+	        <param-value>0</param-value>
+	    </init-param> 
+	    <init-param> 
+	        <param-name>default_encoding</param-name> 
+	        <param-value>UTF-8</param-value>
+	    </init-param> 
+	    <init-param> 
+	        <param-name>number_format</param-name> 
+	        <param-value>0.##########</param-value> 
+	    </init-param>
+	
+	    <load-on-startup>1</load-on-startup> 
+	</servlet>		
+	<servlet-mapping> 
+	    <servlet-name>freemarker</servlet-name> 
+	    <url-pattern>*.ftl</url-pattern> 
+	</servlet-mapping>
+	
+	<!-- 监听器 -->
+	<listener> 
+     	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> 
+  	</listener> 
+  	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.pai.app.admin.listener.AdminStartupListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.pai.app.web.core.framework.web.listener.PAISessionListener</listener-class>
+	</listener>
+	<welcome-file-list>
+  		<welcome-file>/index.htm</welcome-file>				
+	</welcome-file-list>	
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500.jsp</location>
+	</error-page>
+	
+	<session-config>  
+         <session-timeout>60</session-timeout>  
+    </session-config>
+</web-app>

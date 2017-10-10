@@ -18,9 +18,45 @@ import com.pai.base.core.test.BaseTestCase;
  * @author ${vars.developer}
  *
  */
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+@ContextConfiguration({"classpath:conf/application.xml"})
+public class ${baseClass}BaseTest extends BaseTestCase{
+	
+	@Resource
+    protected IdGenerator idGenerator;
+    
+    @Resource
+    protected ${class}Service ${classVar}service;
+    
+=======
 @ContextConfiguration({"classpath:conf/${sys}-${module}-test.xml"})
 public class ${baseClass}BaseTest extends BaseTestCase{
 	
 	@Resource
     protected IdGenerator idGenerator;
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+@ContextConfiguration({"classpath:conf/${sys}-${module}-test.xml"})
+public class ${baseClass}BaseTest extends BaseTestCase{
+	
+	@Resource
+    protected IdGenerator idGenerator;
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+@ContextConfiguration({"classpath:conf/${sys}-${module}-test.xml"})
+public class ${baseClass}BaseTest extends BaseTestCase{
+	
+	@Resource
+    protected IdGenerator idGenerator;
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+@ContextConfiguration({"classpath:conf/${sys}-${module}-test.xml"})
+public class ${baseClass}BaseTest extends BaseTestCase{
+	
+	@Resource
+    protected IdGenerator idGenerator;
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
 }

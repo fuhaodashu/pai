@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="false" default-autowire="byName">
+
+	<context:property-placeholder location="classpath:/conf/app-web.properties"/>
+	 
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxActive" value="${redis.pool.maxActive}" />
+		<property name="maxIdle" value="${redis.pool.maxIdle}" />
+		<property name="maxWait" value="${redis.pool.maxWait}" />
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />
+	</bean>
+	<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1">
+			<list>
+				<bean class="redis.clients.jedis.JedisShardInfo">
+					<constructor-arg index="0" value="${redis.ip}" />
+					<constructor-arg index="1" value="${redis.port}" type="int" />
+				</bean>
+			
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy">  
+        <constructor-arg ref="jedisPoolConfig" />    
+        <constructor-arg value="${redis.ip}" />    
+        <constructor-arg type="int" value="${redis.port}" />
+    </bean> 
+	
+	<bean id="jedisUtil" class="com.pai.service.redis.JedisUtil">
+		<property name="jedisPool" ref="jedisPool" />
+		<property name="shardedJedisPool" ref="shardedJedisPool" />
+	</bean>
+	
+	<bean id="paiCacheableAOPAspect" class="com.pai.service.redis.aop.PAICacheableAOPAspect">
+		<property name="jedisUtil" ref="jedisUtil" />
+	</bean>	    
+		    
+    <aop:config proxy-target-class="true">
+		<aop:aspect ref="paiCacheableAOPAspect">
+			<aop:pointcut expression="execution(* com.pai.biz.*.api.impl.*.*(..))"  id="paiCacheableAopPointcut"/>
+			<aop:around pointcut-ref="paiCacheableAopPointcut" method="doCacheable"/>
+		</aop:aspect>		
+	</aop:config>
+	
+	<bean id="paiCacheEvictAOPAspect" class="com.pai.service.redis.aop.PAICacheEvictAOPAspect"/>  		    
+		    
+    <aop:config proxy-target-class="true">
+		<aop:aspect ref="paiCacheEvictAOPAspect">
+			<aop:pointcut expression="execution(* com.pai.biz.*.api.impl.*.*(..))"  id="paiCacheEvictAopPointcut"/>
+			<aop:around pointcut-ref="paiCacheEvictAopPointcut" method="doCacheEvict"/>
+		</aop:aspect>		
+	</aop:config>
+</beans>

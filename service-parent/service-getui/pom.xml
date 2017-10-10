@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.pai.service</groupId>
+    <artifactId>service-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  
+  <artifactId>service-getui</artifactId>
+  <name>service-getui</name>
+  
+  <dependencies>
+    <dependency>
+		<groupId>com.gexin.platform</groupId>
+		<artifactId>gexin-rp-sdk-base</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.gexin.platform</groupId>
+		<artifactId>gexin-rp-sdk-http</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.gexin.platform</groupId>
+		<artifactId>gexin-rp-sdk-template</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>com.google.protobuf</groupId>
+	  <artifactId>protobuf-java</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>com.fasterxml.jackson.jr</groupId>
+	  <artifactId>jackson-jr-all</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.pai.base</groupId>
+		<artifactId>base-core</artifactId>
+	</dependency>
+  </dependencies>
+</project>

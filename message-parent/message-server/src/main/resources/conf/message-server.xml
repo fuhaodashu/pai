@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/aop
+                            http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--开启注解配置 -->
+    <context:annotation-config/>
+
+    <!-- 开启自动切面代理 -->
+    <aop:aspectj-autoproxy/>
+
+    <context:component-scan base-package="com.pai.biz.message">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 配置文件 -->
+	<context:property-placeholder location="classpath:/conf/message-server.properties" />
+
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 核心线程数 -->
+		<property name="corePoolSize" value="5" />
+		<!-- 最大线程数 -->
+		<property name="maxPoolSize" value="20" />
+		<!-- 队列最大长度 >=mainExecutor.maxSize -->
+		<property name="queueCapacity" value="100" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="1800" />
+		<!-- 线程池对拒绝任务(无线程可用)的处理策略 -->
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+
+    <import resource="classpath:conf/base-db-mybatis.xml"/>
+	<import resource="classpath:conf/base-core.xml"/>
+	<import resource="classpath:conf/service-mq.xml"/>
+    <import resource="spring-dubbo-core.xml"/>
+    <import resource="spring-dubbo-provider.xml"/>
+    
+</beans>

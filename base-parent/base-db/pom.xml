@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.pai.base</groupId>
+    <artifactId>base-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>	
+  </parent>
+  
+  <artifactId>base-db</artifactId>
+  <name>base-db</name>
+  
+  <dependencies>
+    <dependency>
+		<groupId>com.pai.base</groupId>
+		<artifactId>base-core</artifactId>
+	</dependency>
+	<!-- <dependency>
+	 	<groupId>com.pai.service</groupId>
+	  	<artifactId>service-redis</artifactId>
+	</dependency> -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+	</dependency> 
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.cloudhopper.proxool</groupId>
+		<artifactId>proxool</artifactId>
+		<exclusions>
+    		<exclusion>
+    			<groupId>avalon-framework</groupId>
+  				<artifactId>avalon-framework-api</artifactId>
+    		</exclusion>
+    	</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>com.cloudhopper.proxool</groupId>
+		<artifactId>proxool-cglib</artifactId>
+		<exclusions>
+    		<exclusion>
+    			<groupId>avalon-framework</groupId>
+  				<artifactId>avalon-framework-api</artifactId>
+    		</exclusion>
+    	</exclusions>
+	</dependency>
+  </dependencies>
+  
+</project>

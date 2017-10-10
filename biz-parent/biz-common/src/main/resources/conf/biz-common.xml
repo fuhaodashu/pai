@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:context="http://www.springframework.org/schema/context" 
+	 xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
+	
+	<context:annotation-config />
+	
+	<import resource="classpath:conf/base-db-mybatis.xml"/>
+	<import resource="classpath:conf/base-core.xml"/>
+	<import resource="classpath:conf/service-quartz.xml"/>
+	
+	<context:component-scan base-package="com.pai.biz.common" />
+	
+</beans>

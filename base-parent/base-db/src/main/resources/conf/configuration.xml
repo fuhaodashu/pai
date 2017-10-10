@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	 
+	<!-- 禁止使用mybatis缓存 -->
+	<settings >
+		<setting name="cacheEnabled" value="false"/>
+	</settings> 
+	<typeHandlers>
+		<typeHandler javaType="Boolean" jdbcType="CHAR"   handler="com.pai.base.db.mybatis.impl.handler.BooleanTypeHandler" />  
+    </typeHandlers> 
+	<plugins>
+		<plugin interceptor="com.pai.base.db.mybatis.impl.OffsetLimitInterceptor">
+			<property name="dbType" value="mysql"/>
+			<property name="Dialect.oracle" value="com.pai.base.db.mybatis.impl.dialect.OracleDialect"/>
+			<property name="Dialect.mssql" value="com.pai.base.db.mybatis.impl.dialect.SQLServer2005Dialect"/>
+			<property name="Dialect.mysql" value="com.pai.base.db.mybatis.impl.dialect.MySQLDialect"/>
+			<property name="Dialect.db2" value="com.pai.base.db.mybatis.impl.dialect.DB2Dialect"/>
+			<property name="Dialect.h2" value="com.pai.base.db.mybatis.impl.dialect.H2Dialect"/>
+		</plugin>
+	</plugins>
+	 
+</configuration>

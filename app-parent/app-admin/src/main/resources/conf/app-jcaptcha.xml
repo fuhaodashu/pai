@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans default-lazy-init="true">
+	<!-- 基于官网缺省的配置，稍作调整 -->
+	<bean id="imageCaptchaService" class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService">    
+        <constructor-arg type="com.octo.captcha.service.captchastore.CaptchaStore" index="0">    
+            <ref bean="fastHashMapCaptchaStore"/>    
+        </constructor-arg>       
+        <!--which captcha Engine you use-->       
+        <constructor-arg type="com.octo.captcha.engine.CaptchaEngine" index="1">    
+            <ref bean="captchaEngineEx"/>    
+        </constructor-arg>       
+        <constructor-arg index="2">       
+            <value>180</value>       
+        </constructor-arg>       
+        <constructor-arg index="3">       
+            <value>100000</value>       
+        </constructor-arg>       
+        <constructor-arg index="4">       
+            <value>75000</value>       
+        </constructor-arg>      
+    </bean>    	
+	<bean id="fastHashMapCaptchaStore"   
+        class="com.octo.captcha.service.captchastore.FastHashMapCaptchaStore"/>       
+    <!--you can define more than one captcha engine here -->       
+    <bean id="captchaEngineEx"   
+        class="com.pai.app.admin.jcaptcha.CaptchaEngineEx"/>  
+            
+	<bean class="com.octo.captcha.engine.GenericCaptchaEngine" id="imageEngine">
+		<constructor-arg index="0">
+			<list>
+				<ref bean="imageCaptchaFactory" />
+			</list>
+		</constructor-arg>
+	</bean>				
+</beans>

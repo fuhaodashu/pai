@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.common.persistence.entity.JobTaskLogPo">
+	<resultMap id="JobTaskLogPo" type="com.pai.biz.common.persistence.entity.JobTaskLogPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="jobKey" column="job_key" jdbcType="VARCHAR"/>
+		<result property="status" column="status" jdbcType="NUMERIC"/>
+		<result property="jobLog" column="job_log" jdbcType="CLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.common.persistence.entity.JobTaskLogPo">
+		INSERT INTO pai_job_task_log
+		(id_,job_key,status,job_log,create_time)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{jobKey,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{jobLog,jdbcType=CLOB}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="JobTaskLogPo">
+		SELECT * FROM pai_job_task_log 
+		WHERE 
+		id_=#{id}
+		LIMIT 1
+	</select>
+	
+	<select id="getLast" resultMap="JobTaskLogPo">
+    	select * from pai_job_task_log where id_ = (select max(id_) from pai_job_task_log)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_job_task_log
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="JobTaskLogPo">
+		SELECT * FROM pai_job_task_log
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id_ DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="JobTaskLogPo">
+		SELECT * FROM pai_job_task_log
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.common.persistence.entity.JobTaskLogPo">
+		UPDATE pai_job_task_log SET
+		job_key=#{jobKey,jdbcType=VARCHAR},
+		status=#{status,jdbcType=NUMERIC},
+		job_log=#{jobLog,jdbcType=CLOB},
+		create_time=#{createTime,jdbcType=TIMESTAMP}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_job_task_log 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE pai_job_task_log 
+		<set>
+			<if test="entity.jobKey!=null">
+				job_key=#{jobKey,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.status!=null">
+				status=#{status,jdbcType=NUMERIC},
+			</if>
+			<if test="entity.jobLog!=null">
+				job_log=#{jobLog,jdbcType=CLOB},
+			</if>
+			<if test="entity.createTime!=null">
+				create_time=#{createTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+	</update>
+</mapper>

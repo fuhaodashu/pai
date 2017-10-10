@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+	<resultMap id="AuthResourcesPo" type="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="type" column="type" jdbcType="NUMERIC"/>
+		<result property="url" column="url" jdbcType="VARCHAR"/>
+		<result property="parentId" column="parent_id_" jdbcType="VARCHAR"/>
+		<result property="path" column="path" jdbcType="VARCHAR"/>
+		<result property="depth" column="depth" jdbcType="NUMERIC"/>
+		<result property="icon" column="icon" jdbcType="VARCHAR"/>
+		<result property="sort" column="sort" jdbcType="NUMERIC"/>
+		<result property="status" column="status" jdbcType="NUMERIC"/>
+		
+		<result property="roleStatus" column="role_status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+		INSERT INTO pai_auth_resources
+		(id_,name,type,url,parent_id_,path,depth,icon,sort,status)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=NUMERIC}, #{url,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{depth,jdbcType=NUMERIC}, #{icon,jdbcType=VARCHAR}, #{sort,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources 
+		WHERE 
+		id_=#{id}
+	</select>
+	
+	<select id="getLast" resultMap="AuthResourcesPo">
+    	select * from pai_auth_resources where id_ = (select max(id_) from pai_auth_resources)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_auth_resources
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY depth,parent_id_,sort
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.auth.persistence.entity.AuthResourcesPo">
+		UPDATE pai_auth_resources SET
+		name=#{name,jdbcType=VARCHAR},
+		type=#{type,jdbcType=NUMERIC},
+		url=#{url,jdbcType=VARCHAR},
+		parent_id_=#{parentId,jdbcType=VARCHAR},
+		path=#{path,jdbcType=VARCHAR},
+		depth=#{depth,jdbcType=NUMERIC},
+		icon=#{icon,jdbcType=VARCHAR},
+		sort=#{sort,jdbcType=NUMERIC},
+		status=#{status,jdbcType=NUMERIC}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_auth_resources 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	<select id="listResourcesByUserId" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT a.* FROM pai_auth_resources a INNER JOIN 
+		(SELECT a.resource_id_ FROM pai_auth_role_resources a 
+		INNER JOIN pai_auth_role_user b ON a.role_id_=b.role_id_ WHERE b.user_id_=#{userId} AND a.`status`=1)b ON a.id_=b.resource_id_
+		WHERE a.`status`=1 
+		<if test="type != null" >
+			AND a.type=#{type} 
+		</if>
+		GROUP BY a.id_
+		ORDER BY a.depth,a.parent_id_,a.sort
+	</select>
+	
+	<select id="findAllUrls" resultType="java.lang.String">
+		SELECT url FROM pai_auth_resources WHERE url IS NOT NULL AND url !=''
+	</select>
+	
+	<select id="findChildsByParentId" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT * FROM pai_auth_resources WHERE parent_id_=#{parentId}
+	</select>
+	
+	<select id="findResourcesWithByRoleId" parameterType="java.util.Map" resultMap="AuthResourcesPo">
+		SELECT a.*,IF(b.id_ IS NULL, 2, 1) role_status FROM	pai_auth_resources a
+		LEFT JOIN pai_auth_role_resources b ON a.id_ = b.resource_id_ AND b.role_id_ = #{roleId}
+		ORDER BY a.depth,a.parent_id_,a.sort
+	</select>
+</mapper>

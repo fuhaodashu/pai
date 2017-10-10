@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo">
+	<resultMap id="AuthRoleResourcesPo" type="com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="roleId" column="role_id_" jdbcType="VARCHAR"/>
+		<result property="resourceId" column="resource_id_" jdbcType="VARCHAR"/>
+		<result property="status" column="status" jdbcType="NUMERIC"/>
+		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+		
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="resourceName" column="resource_name" jdbcType="VARCHAR"/>
+		<result property="descript" column="descript" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo">
+		INSERT INTO pai_auth_role_resources
+		(id_,role_id_,resource_id_,status,create_by,create_time,update_by,update_time)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{resourceId,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="AuthRoleResourcesPo">
+		SELECT * FROM pai_auth_role_resources 
+		WHERE 
+		id_=#{id}
+	</select>
+	
+	<select id="getLast" resultMap="AuthRoleResourcesPo">
+    	select * from pai_auth_role_resources where id_ = (select max(id_) from pai_auth_role_resources)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_auth_role_resources
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="AuthRoleResourcesPo">
+		SELECT * FROM pai_auth_role_resources
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id_ DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="AuthRoleResourcesPo">
+		SELECT * FROM pai_auth_role_resources
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.auth.persistence.entity.AuthRoleResourcesPo">
+		UPDATE pai_auth_role_resources SET
+		role_id_=#{roleId,jdbcType=VARCHAR},
+		resource_id_=#{resourceId,jdbcType=VARCHAR},
+		status=#{status,jdbcType=NUMERIC},
+		create_by=#{createBy,jdbcType=VARCHAR},
+		create_time=#{createTime,jdbcType=TIMESTAMP},
+		update_by=#{updateBy,jdbcType=VARCHAR},
+		update_time=#{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_auth_role_resources 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE pai_auth_role_resources 
+		<set>
+		<if test="entity.roleId!=null">
+			role_id_=#{roleId,jdbcType=VARCHAR},
+		</if>
+		<if test="entity.resourceId!=null">
+			resource_id_=#{resourceId,jdbcType=VARCHAR},
+		</if>
+		<if test="entity.status!=null">
+			status=#{status,jdbcType=NUMERIC},
+		</if>
+		<if test="entity.createBy!=null">
+			create_by=#{createBy,jdbcType=VARCHAR},
+		</if>
+		<if test="entity.createTime!=null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="entity.updateBy!=null">
+			update_by=#{updateBy,jdbcType=VARCHAR},
+		</if>
+		<if test="entity.updateTime!=null">
+			update_time=#{updateTime,jdbcType=TIMESTAMP}
+		</if>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+	</update>
+	
+	<delete id="deleteByResourceId" parameterType="java.util.Map">
+		DELETE FROM pai_auth_role_resources 
+		WHERE
+		resource_id_=#{resourceId}
+	</delete>
+	
+	<insert id="createAdminResource" parameterType="java.util.Map">
+		INSERT INTO pai_auth_role_resources
+		(id_,role_id_,resource_id_,status,create_by,create_time)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, (select id_ from pai_auth_role where name='超级管理员'), #{resourceId,jdbcType=VARCHAR}, 1, #{createBy,jdbcType=VARCHAR}, now())
+	</insert>
+	
+	<select id="findRoleResourcesByRoleId" parameterType="java.util.Map" resultMap="AuthRoleResourcesPo">
+		SELECT * FROM pai_auth_role_resources WHERE role_id_=#{roleId}
+	</select>
+	
+	<select id="findRoleByResourceId" parameterType="java.util.Map" resultMap="AuthRoleResourcesPo">
+		SELECT a.*,c.name AS resource_name FROM pai_auth_role_resources b 
+		INNER JOIN pai_auth_role a ON a.id_=b.role_id_ 
+		INNER JOIN pai_auth_resources c ON b.resource_id_=c.id_
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<!-- WHERE 1=1
+		<if test="resourceId!=null">
+			AND b.resource_id_=#{resourceId}
+		</if> -->
+		ORDER BY c.depth,c.parent_id_,c.sort
+	</select>
+</mapper>

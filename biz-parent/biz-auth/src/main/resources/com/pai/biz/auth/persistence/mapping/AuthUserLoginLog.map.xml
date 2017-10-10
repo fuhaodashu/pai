@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.auth.persistence.entity.AuthUserLoginLogPo">
+	<resultMap id="AuthUserLoginLogPo" type="com.pai.biz.auth.persistence.entity.AuthUserLoginLogPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="userId" column="user_id_" jdbcType="VARCHAR"/>
+		<result property="ip" column="ip" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.auth.persistence.entity.AuthUserLoginLogPo">
+		INSERT INTO pai_auth_user_login_log
+		(id_,user_id_,ip,create_time)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="AuthUserLoginLogPo">
+		SELECT * FROM pai_auth_user_login_log 
+		WHERE 
+		id_=#{id}
+	</select>
+	
+	<select id="getLast" resultMap="AuthUserLoginLogPo">
+    	select * from pai_auth_user_login_log where id_ = (select max(id_) from pai_auth_user_login_log)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_auth_user_login_log
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="AuthUserLoginLogPo">
+		SELECT * FROM pai_auth_user_login_log
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id_ DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="AuthUserLoginLogPo">
+		SELECT * FROM pai_auth_user_login_log
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.auth.persistence.entity.AuthUserLoginLogPo">
+		UPDATE pai_auth_user_login_log SET
+		user_id_=#{userId,jdbcType=VARCHAR},
+		ip=#{ip,jdbcType=VARCHAR},
+		create_time=#{createTime,jdbcType=TIMESTAMP}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_auth_user_login_log 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/jms
+  http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+  http://activemq.apache.org/schema/core 
+  http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<!--(嵌入配置)activeMq消息容器-->          
+ 	<amq:connectionFactory id="amqConnectionFactory"
+		brokerURL="${broker.url}" userName="${mq.username}" password="${mq.password}" />          
+  	   
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+  		<property name="targetConnectionFactory" ref="amqConnectionFactory"></property>
+		<!-- Session缓存数量 -->
+		<property name="sessionCacheSize" value="100" />
+	</bean>
+	
+	<!-- 定义JmsTemplate的Queue类型 -->
+	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg ref="connectionFactory" />
+		<!-- 非pub/sub模型（发布/订阅），即队列模式 -->
+		<property name="pubSubDomain" value="false" />
+	</bean>
+	
+	<!-- 定义JmsTemplate的Topic类型 -->
+	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg ref="connectionFactory" />
+		<!-- pub/sub模型（发布/订阅） -->
+		<property name="pubSubDomain" value="true" />
+	</bean>
+
+	<bean name="jmsConsumer" class="com.pai.service.mq.jms.JmsConsumer"></bean>
+	
+	<bean name="jmsService" class="com.pai.service.mq.JmsService">
+		<property name="queue" value="${mq.queue}"></property>
+		<property name="jmsTemplate" ref="jmsQueueTemplate" />
+	</bean> 
+
+	<!-- 定义Queue监听器 -->
+	<jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+		<jms:listener destination="${mq.queue}" ref="jmsConsumer" method="execute" />
+	</jms:listener-container>
+	
+	<!-- 定义Topic监听器 -->
+	<!-- <jms:listener-container destination-type="topic" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+		<jms:listener destination="pai.test.topic" ref="topicReceiver1"/>
+		<jms:listener destination="pai.test.topic" ref="topicReceiver2"/>
+	</jms:listener-container> -->
+</beans>	

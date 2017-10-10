@@ -21,6 +21,323 @@
 		<template key="repositoryImpl"  path="repositoryImpl.ftl"/>
 		<template key="domainTest"  path="domainTest.ftl"/>
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+		<!--controller及页面 -->
+		<template key="controller"  path="controller.ftl"/>
+		<template key="apiController" path="apiController.ftl"/>
+		<template key="apiResult" path="apiResult.ftl"/>
+		<template key="apiListResult" path="apiListResult.ftl"/>
+		<template key="apiView" path="apiView.ftl"/>
+		<template key="apiViewConverter" path="apiViewConverter.ftl"/>
+		<template key="list"  path="list.ftl"/>
+		<template key="edit"  path="edit.ftl"/>
+		<template key="listJs"  path="listJs.ftl"/>
+		
+		<!-- rpc service及调整controller -->
+		<template key="rpccontroller"  path="rpccontroller.ftl"/>	
+		<template key="service"  path="service.ftl"/>
+		<template key="serviceImpl"  path="serviceImpl.ftl"/>	
+		<template key="bean"  path="bean.ftl"/>	
+		<!-- <template key="request"  path="request.ftl"/> -->	
+		
+		<!-- 单元测试 -->	
+		<template key="controllerTest"  path="controllerTest.ftl"/>	
+		<template key="apiControllerTest" path="apiControllerTest.ftl"/>
+		<template key="apiTest" path="apiTest.ftl"/>						
+	</templates>
+
+	<dbFiles>
+		<file refTemplate="mapping" filename="{class}.map.xml" dir="src\main\resources\com\{sys}\biz\{module}\persistence\mapping"  sub="true"  override="true"/>											
+		<file refTemplate="tbl" filename="{class}Tbl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+	</dbFiles>
+
+	<dbDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="member-parent\member-server"/>
+		<dir key="message" value="message-parent\message-server"/>
+	</dbDirs> 
+
+	<daoFiles>											
+		<file refTemplate="po" filename="{class}Po.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+		<file refTemplate="dao" filename="{class}Dao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="daoImpl" filename="{class}DaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>
+		<file refTemplate="queryDao" filename="{class}QueryDao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="queryDaoImpl" filename="{class}QueryDaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>		
+		<!-- <file refTemplate="daoTest" filename="{class}DaoTest.java" dir="src\test\java\com\{sys}\biz\{module}\test\persistence\dao" sub="true"  override="true"/> -->
+		<!-- <file refTemplate="baseTest" filename="{baseClass}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" /> -->						
+	</daoFiles>
+
+	<daoDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="member-parent\member-server"/>
+		<dir key="message" value="message-parent\message-server"/>
+	</daoDirs> 
+
+	<!-- 增删改查 -->
+	<domainFiles>											
+		<file refTemplate="domain" filename="{class}.java" dir="src\main\java\com\{sys}\biz\{module}\domain"  sub="true" override="true"/>			
+		<!-- <file refTemplate="domainTest" filename="{class}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test\domain"  sub="true" override="true"/> -->
+		<file refTemplate="repository" filename="{class}Repository.java" dir="src\main\java\com\{sys}\biz\{module}\repository" sub="true"  override="true"/>
+		<file refTemplate="repositoryImpl" filename="{class}RepositoryImpl.java" dir="src\main\java\com\{sys}\biz\{module}\repository\impl" sub="true"  override="true"/>					
+	</domainFiles>
+  
+	<domainDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="member-parent\member-server"/>
+		<dir key="message" value="message-parent\message-server"/>
+	</domainDirs>  
+  
+  	<!-- 非dubbo服务专用后台controller -->
+	<controllerFiles>																					
+		<file refTemplate="controller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
+		<!-- <file refTemplate="controllerTest" filename="{class}ControllerTest.java" dir="src\test\java\com\{sys}\app\admin\{module}\test\controller" sub="false" override="true"/> -->
+	</controllerFiles>	
+	
+	<controllerDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+	</controllerDirs>
+	
+	<!-- dubbo服务专用后台controller -->
+	<rpccontrollerFiles>																					
+		<file refTemplate="rpccontroller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="true" override="true"/>
+	</rpccontrollerFiles>	
+	
+	<rpccontrollerDirs>
+		<dir key="member" value="app-parent\app-admin"/>
+		<dir key="topic" value="app-parent\app-admin"/>
+		<dir key="message" value="app-parent\app-admin"/>
+	</rpccontrollerDirs>
+	
+	<!-- web系统页面和脚本 -->
+	<viewFiles>																					
+		<file refTemplate="list" filename="{classVar}List.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>
+		<file refTemplate="edit" filename="{classVar}Edit.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>					
+		<file refTemplate="listJs" filename="{classVar}.js" dir="src\main\webapp\scripts\admin\{sys}\{module}" sub="true" override="true"/>
+	</viewFiles>	
+	
+	<viewDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
+		<dir key="message" value="app-parent\app-admin"/>
+	</viewDirs>
+	
+	<!-- 针对服务的接口实现类 -->
+	<serviceFiles>
+		<file refTemplate="serviceImpl" filename="{class}ServiceImpl.java" dir="src\main\java\com\{sys}\biz\{module}\api\impl" sub="true" override="true"/>
+		<file refTemplate="apiTest" filename="{class}ServiceTest.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" override="true"/>
+	</serviceFiles>
+	
+	<serviceDirs>
+		<dir key="member" value="member-parent\member-server"/>
+		<dir key="topic" value="topic-parent\topic-server"/>
+		<dir key="message" value="message-parent\message-server"/>
+	</serviceDirs>
+	
+	<!-- dubbo接口类 -->
+	<baseserviceFiles>
+		<file refTemplate="bean" filename="{class}Bean.java" dir="src\main\java\com\{sys}\biz\{module}\api\model"  sub="true" override="true"/>
+		<file refTemplate="service" filename="{class}Service.java" dir="src\main\java\com\{sys}\biz\{module}\api\service" sub="true" override="true"/>
+		<!-- <file refTemplate="request" filename="{class}Request.java" dir="src\main\java\com\{sys}\biz\{module}\api\request" sub="true" override="true"/> -->
+	</baseserviceFiles>
+	
+	<baseserviceDirs>
+		<dir key="member" value="member-parent\member-api"/>
+		<dir key="topic" value="topic-parent\topic-api"/>
+		<dir key="message" value="message-parent\message-api"/>
+	</baseserviceDirs>
+	
+	<apiBaseFiles>																							
+		<file refTemplate="apiResult" filename="{class}APIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiListResult" filename="{class}ListAPIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiView" filename="{class}View.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+	</apiBaseFiles>		
+	
+	<apiBaseDirs>
+		<dir key="auth" value="app-parent\app-web"/>
+		<dir key="common" value="app-parent\app-web"/>
+		<dir key="member" value="app-parent\app-web"/>
+		<dir key="message" value="app-parent\app-web"/>
+	</apiBaseDirs>	
+	
+	<!-- rest接口API -->
+	<apiFiles>																					
+		<file refTemplate="apiController" filename="{class}APIController.java" dir="src\main\java\com\{sys}\app\api\{module}\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiControllerTest" filename="{class}APIControllerTest.java" dir="src\test\java\com\{sys}\app\api\{module}\test\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiViewConverter" filename="{class}ViewConverter.java" dir="src\main\java\com\{sys}\app\api\{module}\helper" sub="true" override="true"/>
+	</apiFiles>			
+
+	<apiDirs>
+		<dir key="auth" value="app-parent\app-api"/>
+		<dir key="common" value="app-parent\app-api"/>
+		<dir key="member" value="app-parent\app-api"/>
+		<dir key="message" value="app-parent\app-api"/>
+	</apiDirs>
+
+	<variables>
+		<variable name="developer" value="FU_HAO" />
+		<variable name="company" value="π" />
+		<!--keys值必须小写，且用,隔开-->
+		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api,rpccontroller,service,baseservice"/>
+		<variable name="workspace" value="D:\github\pai\" />
+	</variables>
+        <!--可以有多个<table>标签-->
+	<table tableName="pai_message_record" >
+		<variable name="sys" value="pai" />
+		<variable name="module" value="message" />
+		<variable name="class" value="MessageRecord" />		
+		<variable name="baseClass" value="MessageRecord" />
+		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
+		<variable name="doType" value="rpccontroller" />
+		 <!--
+		<subtable tablename="pai_auth_resources"  foreignKey="resource_id_">
+			<variable name="sys" value="pai" />
+			<variable name="module" value="auth" />
+			<variable name="class" value="AuthResources" />		
+			<variable name="baseClass" value="AuthResources" /> 			
+			<variable name="doType" value="rpccontroller,service,baseservice" />
+		</subtable>
+		-->
+	</table>	
+	 <!-- 默认是all ，或者其它指定项，逗号分隔。db,dao,domain,controller,view,apiBase,api,rpccontroller,service,request-->
+=======
+		<!--单元测试相关类 -->
+		<template key="controller"  path="controller.ftl"/>
+		<template key="controllerTest"  path="controllerTest.ftl"/>
+		<template key="apiController" path="apiController.ftl"/>
+		<template key="apiControllerTest" path="apiControllerTest.ftl"/>
+		<template key="apiResult" path="apiResult.ftl"/>
+		<template key="apiListResult" path="apiListResult.ftl"/>
+		<template key="apiView" path="apiView.ftl"/>
+		<template key="apiViewConverter" path="apiViewConverter.ftl"/>
+		<template key="list"  path="list.ftl"/>
+		<template key="edit"  path="edit.ftl"/>
+		<template key="listJs"  path="listJs.ftl"/>								
+	</templates>
+
+	<dbFiles>
+		<file refTemplate="mapping" filename="{class}.map.xml" dir="src\main\resources\com\{sys}\biz\{module}\persistence\mapping"  sub="true"  override="true"/>											
+		<file refTemplate="tbl" filename="{class}Tbl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+	</dbFiles>
+
+	<dbDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</dbDirs> 
+
+	<daoFiles>											
+		<file refTemplate="po" filename="{class}Po.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+		<file refTemplate="dao" filename="{class}Dao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="daoImpl" filename="{class}DaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>
+		<file refTemplate="queryDao" filename="{class}QueryDao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="queryDaoImpl" filename="{class}QueryDaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>		
+		<!-- <file refTemplate="daoTest" filename="{class}DaoTest.java" dir="src\test\java\com\{sys}\biz\{module}\test\persistence\dao" sub="true"  override="true"/> -->
+		<file refTemplate="baseTest" filename="{baseClass}BaseTest.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" />						
+	</daoFiles>
+
+	<daoDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</daoDirs> 
+
+	<domainFiles>											
+		<file refTemplate="domain" filename="{class}.java" dir="src\main\java\com\{sys}\biz\{module}\domain"  sub="true" override="true"/>			
+		<!-- <file refTemplate="domainTest" filename="{class}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test\domain"  sub="true" override="true"/> -->
+		<file refTemplate="repository" filename="{class}Repository.java" dir="src\main\java\com\{sys}\biz\{module}\repository" sub="true"  override="true"/>
+		<file refTemplate="repositoryImpl" filename="{class}RepositoryImpl.java" dir="src\main\java\com\{sys}\biz\{module}\repository\impl" sub="true"  override="true"/>					
+	</domainFiles>
+  
+	<domainDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</domainDirs>  
+  
+	<controllerFiles>																					
+		<file refTemplate="controller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
+		<!-- <file refTemplate="controllerTest" filename="{class}ControllerTest.java" dir="src\test\java\com\{sys}\app\admin\{module}\test\controller" sub="false" override="true"/> -->
+	</controllerFiles>	
+	
+	<controllerDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
+	</controllerDirs>
+	
+	<viewFiles>																					
+		<file refTemplate="list" filename="{classVar}List.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>
+		<file refTemplate="edit" filename="{classVar}Edit.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>					
+		<file refTemplate="listJs" filename="{classVar}.js" dir="src\main\webapp\scripts\admin\{sys}\{module}" sub="true" override="true"/>
+	</viewFiles>	
+	
+	<viewDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
+	</viewDirs>
+	
+	<apiBaseFiles>																							
+		<file refTemplate="apiResult" filename="{class}APIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiListResult" filename="{class}ListAPIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiView" filename="{class}View.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+	</apiBaseFiles>		
+	
+	<apiBaseDirs>
+		<dir key="auth" value="app-parent\app-web"/>
+		<dir key="common" value="app-parent\app-web"/>
+		<dir key="member" value="app-parent\app-web"/>
+	</apiBaseDirs>	
+	
+	<apiFiles>																					
+		<file refTemplate="apiController" filename="{class}APIController.java" dir="src\main\java\com\{sys}\app\api\{module}\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiControllerTest" filename="{class}APIControllerTest.java" dir="src\test\java\com\{sys}\app\api\{module}\test\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiViewConverter" filename="{class}ViewConverter.java" dir="src\main\java\com\{sys}\app\api\{module}\helper" sub="true" override="true"/>
+	</apiFiles>			
+
+	<apiDirs>
+		<dir key="auth" value="app-parent\app-api"/>
+		<dir key="common" value="app-parent\app-api"/>
+		<dir key="member" value="app-parent\app-api"/>
+	</apiDirs>
+
+	<variables>
+		<variable name="developer" value="FUHAO" />
+		<variable name="company" value="π" />
+		<!--keys值必须小写，且用,隔开-->
+		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
+		<variable name="workspace" value="D:\github\pai\" />
+	</variables>
+        <!--可以有多个<table>标签-->
+	<table tableName="pai_member_user" >
+		<variable name="sys" value="pai" />
+		<variable name="module" value="member" />
+		<variable name="class" value="MemberUser" />		
+		<variable name="baseClass" value="MemberUser" />
+		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
+		<variable name="doType" value="db,dao,domain,controller,view" />
+		 <!--
+		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
+			<variable name="sys" value="pai" />
+			<variable name="module" value="auth" />
+			<variable name="class" value="AuthResources" />		
+			<variable name="baseClass" value="AuthResources" /> 			
+			<variable name="doType" value="db,dao,domain,controller" />
+		</subtable>
+		-->
+	</table>	
+	 <!-- 默认是all ，或者其它指定项，逗号分隔。db,dao,domain,controller,view,api-->
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+</config>
+=======
 		<!--单元测试相关类 -->
 		<template key="controller"  path="controller.ftl"/>
 		<template key="controllerTest"  path="controllerTest.ftl"/>
@@ -149,3 +466,264 @@
 	</table>	
 	 <!-- 默认是all ，或者其它指定项，逗号分隔。db,dao,domain,controller,view,api-->
 </config>
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+		<!--单元测试相关类 -->
+		<template key="controller"  path="controller.ftl"/>
+		<template key="controllerTest"  path="controllerTest.ftl"/>
+		<template key="apiController" path="apiController.ftl"/>
+		<template key="apiControllerTest" path="apiControllerTest.ftl"/>
+		<template key="apiResult" path="apiResult.ftl"/>
+		<template key="apiListResult" path="apiListResult.ftl"/>
+		<template key="apiView" path="apiView.ftl"/>
+		<template key="apiViewConverter" path="apiViewConverter.ftl"/>
+		<template key="list"  path="list.ftl"/>
+		<template key="edit"  path="edit.ftl"/>
+		<template key="listJs"  path="listJs.ftl"/>								
+	</templates>
+
+	<dbFiles>
+		<file refTemplate="mapping" filename="{class}.map.xml" dir="src\main\resources\com\{sys}\biz\{module}\persistence\mapping"  sub="true"  override="true"/>											
+		<file refTemplate="tbl" filename="{class}Tbl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+	</dbFiles>
+
+	<dbDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</dbDirs> 
+
+	<daoFiles>											
+		<file refTemplate="po" filename="{class}Po.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+		<file refTemplate="dao" filename="{class}Dao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="daoImpl" filename="{class}DaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>
+		<file refTemplate="queryDao" filename="{class}QueryDao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="queryDaoImpl" filename="{class}QueryDaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>		
+		<!-- <file refTemplate="daoTest" filename="{class}DaoTest.java" dir="src\test\java\com\{sys}\biz\{module}\test\persistence\dao" sub="true"  override="true"/> -->
+		<file refTemplate="baseTest" filename="{baseClass}BaseTest.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" />						
+	</daoFiles>
+
+	<daoDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</daoDirs> 
+
+	<domainFiles>											
+		<file refTemplate="domain" filename="{class}.java" dir="src\main\java\com\{sys}\biz\{module}\domain"  sub="true" override="true"/>			
+		<!-- <file refTemplate="domainTest" filename="{class}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test\domain"  sub="true" override="true"/> -->
+		<file refTemplate="repository" filename="{class}Repository.java" dir="src\main\java\com\{sys}\biz\{module}\repository" sub="true"  override="true"/>
+		<file refTemplate="repositoryImpl" filename="{class}RepositoryImpl.java" dir="src\main\java\com\{sys}\biz\{module}\repository\impl" sub="true"  override="true"/>					
+	</domainFiles>
+  
+	<domainDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</domainDirs>  
+  
+	<controllerFiles>																					
+		<file refTemplate="controller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
+		<!-- <file refTemplate="controllerTest" filename="{class}ControllerTest.java" dir="src\test\java\com\{sys}\app\admin\{module}\test\controller" sub="false" override="true"/> -->
+	</controllerFiles>	
+	
+	<controllerDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
+	</controllerDirs>
+	
+	<viewFiles>																					
+		<file refTemplate="list" filename="{classVar}List.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>
+		<file refTemplate="edit" filename="{classVar}Edit.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>					
+		<file refTemplate="listJs" filename="{classVar}.js" dir="src\main\webapp\scripts\admin\{sys}\{module}" sub="true" override="true"/>
+	</viewFiles>	
+	
+	<viewDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
+	</viewDirs>
+	
+	<apiBaseFiles>																							
+		<file refTemplate="apiResult" filename="{class}APIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiListResult" filename="{class}ListAPIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiView" filename="{class}View.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+	</apiBaseFiles>		
+	
+	<apiBaseDirs>
+		<dir key="auth" value="app-parent\app-web"/>
+		<dir key="common" value="app-parent\app-web"/>
+		<dir key="member" value="app-parent\app-web"/>
+	</apiBaseDirs>	
+	
+	<apiFiles>																					
+		<file refTemplate="apiController" filename="{class}APIController.java" dir="src\main\java\com\{sys}\app\api\{module}\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiControllerTest" filename="{class}APIControllerTest.java" dir="src\test\java\com\{sys}\app\api\{module}\test\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiViewConverter" filename="{class}ViewConverter.java" dir="src\main\java\com\{sys}\app\api\{module}\helper" sub="true" override="true"/>
+	</apiFiles>			
+
+	<apiDirs>
+		<dir key="auth" value="app-parent\app-api"/>
+		<dir key="common" value="app-parent\app-api"/>
+		<dir key="member" value="app-parent\app-api"/>
+	</apiDirs>
+
+	<variables>
+		<variable name="developer" value="FUHAO" />
+		<variable name="company" value="π" />
+		<!--keys值必须小写，且用,隔开-->
+		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
+		<variable name="workspace" value="D:\github\pai\" />
+	</variables>
+        <!--可以有多个<table>标签-->
+	<table tableName="pai_member_user" >
+		<variable name="sys" value="pai" />
+		<variable name="module" value="member" />
+		<variable name="class" value="MemberUser" />		
+		<variable name="baseClass" value="MemberUser" />
+		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
+		<variable name="doType" value="db,dao,domain,controller,view" />
+		 <!--
+		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
+			<variable name="sys" value="pai" />
+			<variable name="module" value="auth" />
+			<variable name="class" value="AuthResources" />		
+			<variable name="baseClass" value="AuthResources" /> 			
+			<variable name="doType" value="db,dao,domain,controller" />
+		</subtable>
+		-->
+	</table>	
+	 <!-- 默认是all ，或者其它指定项，逗号分隔。db,dao,domain,controller,view,api-->
+</config>
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+		<!--单元测试相关类 -->
+		<template key="controller"  path="controller.ftl"/>
+		<template key="controllerTest"  path="controllerTest.ftl"/>
+		<template key="apiController" path="apiController.ftl"/>
+		<template key="apiControllerTest" path="apiControllerTest.ftl"/>
+		<template key="apiResult" path="apiResult.ftl"/>
+		<template key="apiListResult" path="apiListResult.ftl"/>
+		<template key="apiView" path="apiView.ftl"/>
+		<template key="apiViewConverter" path="apiViewConverter.ftl"/>
+		<template key="list"  path="list.ftl"/>
+		<template key="edit"  path="edit.ftl"/>
+		<template key="listJs"  path="listJs.ftl"/>								
+	</templates>
+
+	<dbFiles>
+		<file refTemplate="mapping" filename="{class}.map.xml" dir="src\main\resources\com\{sys}\biz\{module}\persistence\mapping"  sub="true"  override="true"/>											
+		<file refTemplate="tbl" filename="{class}Tbl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+	</dbFiles>
+
+	<dbDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</dbDirs> 
+
+	<daoFiles>											
+		<file refTemplate="po" filename="{class}Po.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\entity"  sub="true" override="true"/>
+		<file refTemplate="dao" filename="{class}Dao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="daoImpl" filename="{class}DaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>
+		<file refTemplate="queryDao" filename="{class}QueryDao.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao" sub="true"  override="true"/>
+		<file refTemplate="queryDaoImpl" filename="{class}QueryDaoImpl.java" dir="src\main\java\com\{sys}\biz\{module}\persistence\dao\impl" sub="true"  override="true"/>		
+		<!-- <file refTemplate="daoTest" filename="{class}DaoTest.java" dir="src\test\java\com\{sys}\biz\{module}\test\persistence\dao" sub="true"  override="true"/> -->
+		<file refTemplate="baseTest" filename="{baseClass}BaseTest.java" dir="src\test\java\com\{sys}\biz\{module}\test" sub="true" />						
+	</daoFiles>
+
+	<daoDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</daoDirs> 
+
+	<domainFiles>											
+		<file refTemplate="domain" filename="{class}.java" dir="src\main\java\com\{sys}\biz\{module}\domain"  sub="true" override="true"/>			
+		<!-- <file refTemplate="domainTest" filename="{class}Test.java" dir="src\test\java\com\{sys}\biz\{module}\test\domain"  sub="true" override="true"/> -->
+		<file refTemplate="repository" filename="{class}Repository.java" dir="src\main\java\com\{sys}\biz\{module}\repository" sub="true"  override="true"/>
+		<file refTemplate="repositoryImpl" filename="{class}RepositoryImpl.java" dir="src\main\java\com\{sys}\biz\{module}\repository\impl" sub="true"  override="true"/>					
+	</domainFiles>
+  
+	<domainDirs><!-- 对应table配置的module -->
+		<dir key="auth" value="biz-parent\biz-auth"/>
+		<dir key="common" value="biz-parent\biz-common"/>
+		<dir key="member" value="biz-parent\biz-member"/>
+	</domainDirs>  
+  
+	<controllerFiles>																					
+		<file refTemplate="controller" filename="{class}Controller.java" dir="src\main\java\com\{sys}\app\admin\{module}\controller" sub="false" override="true"/>
+		<!-- <file refTemplate="controllerTest" filename="{class}ControllerTest.java" dir="src\test\java\com\{sys}\app\admin\{module}\test\controller" sub="false" override="true"/> -->
+	</controllerFiles>	
+	
+	<controllerDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
+	</controllerDirs>
+	
+	<viewFiles>																					
+		<file refTemplate="list" filename="{classVar}List.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>
+		<file refTemplate="edit" filename="{classVar}Edit.ftl" dir="src\main\webapp\WEB-INF\view\admin\{sys}\{module}\{classVar}" sub="true" override="true"/>					
+		<file refTemplate="listJs" filename="{classVar}.js" dir="src\main\webapp\scripts\admin\{sys}\{module}" sub="true" override="true"/>
+	</viewFiles>	
+	
+	<viewDirs>
+		<dir key="auth" value="app-parent\app-admin"/>
+		<dir key="common" value="app-parent\app-admin"/>
+		<dir key="member" value="app-parent\app-admin"/>
+	</viewDirs>
+	
+	<apiBaseFiles>																							
+		<file refTemplate="apiResult" filename="{class}APIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiListResult" filename="{class}ListAPIResult.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+		<file refTemplate="apiView" filename="{class}View.java" dir="src\main\java\com\{sys}\app\web\{module}\view" sub="true" override="true"/>
+	</apiBaseFiles>		
+	
+	<apiBaseDirs>
+		<dir key="auth" value="app-parent\app-web"/>
+		<dir key="common" value="app-parent\app-web"/>
+		<dir key="member" value="app-parent\app-web"/>
+	</apiBaseDirs>	
+	
+	<apiFiles>																					
+		<file refTemplate="apiController" filename="{class}APIController.java" dir="src\main\java\com\{sys}\app\api\{module}\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiControllerTest" filename="{class}APIControllerTest.java" dir="src\test\java\com\{sys}\app\api\{module}\test\web\controller" sub="true" override="true"/>
+		<file refTemplate="apiViewConverter" filename="{class}ViewConverter.java" dir="src\main\java\com\{sys}\app\api\{module}\helper" sub="true" override="true"/>
+	</apiFiles>			
+
+	<apiDirs>
+		<dir key="auth" value="app-parent\app-api"/>
+		<dir key="common" value="app-parent\app-api"/>
+		<dir key="member" value="app-parent\app-api"/>
+	</apiDirs>
+
+	<variables>
+		<variable name="developer" value="FUHAO" />
+		<variable name="company" value="π" />
+		<!--keys值必须小写，且用,隔开-->
+		<variable name="keys" value="db,dao,domain,controller,view,apiBase,api"/>
+		<variable name="workspace" value="D:\github\pai\" />
+	</variables>
+        <!--可以有多个<table>标签-->
+	<table tableName="pai_member_user" >
+		<variable name="sys" value="pai" />
+		<variable name="module" value="member" />
+		<variable name="class" value="MemberUser" />		
+		<variable name="baseClass" value="MemberUser" />
+		 <!-- doType设置为all或空均可，all为默认生成所有文件, 为空时生成除api外的所有文件，doType的值大小写均可，代码会转换成小写	并与keys每个值匹配-->
+		<variable name="doType" value="db,dao,domain,controller,view" />
+		 <!--
+		<subtable tablename="pai_auth_resources"  foreignKey="report_id_">
+			<variable name="sys" value="pai" />
+			<variable name="module" value="auth" />
+			<variable name="class" value="AuthResources" />		
+			<variable name="baseClass" value="AuthResources" /> 			
+			<variable name="doType" value="db,dao,domain,controller" />
+		</subtable>
+		-->
+	</table>	
+	 <!-- 默认是all ，或者其它指定项，逗号分隔。db,dao,domain,controller,view,api-->
+</config>
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git

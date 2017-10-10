@@ -1,0 +1,91 @@
+ Solr运算符
+1. “:” 指定字段查指定值，如返回所有值*:*
+2. “?” 表示单个任意字符的通配
+3. “*” 表示多个任意字符的通配（不能在检索的项开始使用*或者?符号）
+4. “~” 表示模糊检索，如检索拼写类似于”roam”的项这样写：roam~将找到形如foam和roams的单词；roam~0.8，检索返回相似度在0.8以上的记录。
+5. 邻近检索，如检索相隔10个单词的”apache”和”jakarta”，”jakarta apache”~10
+6. “^” 控制相关度检索，如检索jakarta apache，同时希望去让”jakarta”的相关度更加好，那么在其后加上”^”符号和增量值，即jakarta^4 apache
+7. 布尔操作符AND、||
+8. 布尔操作符OR、&&  ， 空格 等同于 OR
+9. 布尔操作符NOT、!、- （排除操作符不能单独与项使用构成查询）
+10. “+” 存在操作符，要求符号”+”后的项必须在文档相应的域中存在
+11. ( ) 用于构成子查询
+12. [] 包含范围检索，如检索某时间段记录，包含头尾，date:[200707 TO 200710]
+13. {} 不包含范围检索，如检索某时间段记录，不包含头尾
+date:{200707 TO 200710}
+14. / 转义操作符，特殊字符包括+ - && || ! ( ) { } [ ] ^ ” ~ * ? : /
+
+ 注：①“+”和”-“表示对单个查询单元的修饰，and 、or 、 not 是对两个查询单元是否做交集或者做差集还是取反的操作的符号
+　　 比如:AB:china +AB:america ,表示的是AB:china忽略不计可有可无，必须满足第二个条件才是对的,而不是你所认为的必须满足这两个搜索条件
+　　 如果输入:AB:china AND AB:america ,解析出来的结果是两个条件同时满足，即+AB:china AND +AB:america或+AB:china +AB:america
+　　总而言之，查询语法：  修饰符 字段名:查询关键词 AND/OR/NOT 修饰符 字段名:查询关键词
+
+
+******************************************************************
+//数据查询
+1、[包含查询]
+query.set("q", "*:*"); // 查询关键词，*:*代表所有属性、所有值，即所有索引
+
+//注意set("q",xx) 等同于 setQuery(xx)
+
+query.setQuery("title:西瓜 OR tag:榨汁机");  // 从 title字段中查询包含"西瓜" 或 从tag字段总包含 "榨汁机" 的索引数据
+
+2、[排除查询] (建议 尽量用 filter过滤查询，当索引库数据量大时效果更明显)
+query.setQuery("title:西瓜 AND NOT price:500");  // 从 title字段中查询包含"西瓜"的索引数据 并且 排除掉 价格=500的
+
+
+query.set("fl", "id,title,createTime"); // 设置查询结果返回的字段， 默认是 全部返回
+
+//过滤器查询，可以提高性能 filter 类似多个条件组合，如and
+query.addFilterQuery("price:[50 TO 200]"); //价格在50~200之间
+query.addFilterQuery("status:disable"); //状态被禁用的
+query.addFilterQuery("price:[50 TO 200] AND status:disable"); //价格在50~200之间 并且 状态是被禁用的
+
+
+
+******************************************************************
+//【Facet】为solr中的层次分类查询（分片查询）， 可以统计关键字及出现的次数、或是做自动补全提示
+query.setFacet(true)
+.setQuery("*:*") //条件查询
+.setFacetMinCount(1) //最小长度
+.setFacetLimit(5)//提取 前5条分片结果
+//.setFacetPrefix("title", "pai") //在title字段中关键字前缀是pai的
+.setFacetPrefix("pai")//在title、cname字段中关键字前缀是pai的
+.addFacetField("title")
+.addFacetField("cname");//分片字段
+
+//输出分片信息
+......
+QueryResponse response = server.query(query);
+List<FacetField> facets = response.getFacetFields();
+for (FacetField facet : facets) {
+    fail(facet);
+    List<Count> facetCounts = facet.getValues();
+    for (FacetField.Count count : facetCounts) {
+        //关键字 - 出现次数
+        fail(count.getName() + ": " + count.getCount());
+    }
+}
+
+//输出title字段里的分片信息
+FacetField facetField = response.getFacetField("title");
+List<Count> facetFields = facetField.getValues();
+for (Count count : facetFields) {
+    //关键字 - 出现次数
+    fail(count.getName() + ": " + count.getCount());
+}
+        
+******************************************************************
+//设置高亮
+query.setHighlight(true); // 开启高亮组件
+query.addHighlightField("name");// 高亮字段
+query.setHighlightSimplePre("<font color='red'>");//标记，高亮关键字前缀
+query.setHighlightSimplePost("</font>");//后缀
+query.setHighlightSnippets(1);//结果分片数，默认为1
+query.setHighlightFragsize(1000);//每个分片的最大长度，默认为100
+
+//第一个Map的键是文档的ID，第二个Map的键是高亮显示的字段名     
+Map<String, Map<String, List<String>>> map = response.getHighlighting();
+
+高亮参考地址：http://www.cnblogs.com/rainbowzc/p/3680343.html
+    

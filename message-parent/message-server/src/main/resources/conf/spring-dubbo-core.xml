@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:dubbp="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 应用名称用于计算依赖关系 -->
+    <dubbo:application name="member-server"/>
+
+    <!-- 定义dubbo协议，注册端口号 -->
+    <dubbo:protocol name="dubbo" port="${dubbo.registry.port}"/>
+
+    <!-- 定义dubbo注册 -->
+    <dubbo:registry address="${dubbo.registry.address}"/>
+
+    <!-- 服务提供者缺省值配置 -->
+    <dubbo:provider delay="${dubbo.provider.delay}" timeout="${dubbo.provider.timeout}" />
+
+    <!-- 服务消费者缺省值配置 -->
+    <dubbp:consumer check="${dubbo.consumer.check}" timeout="${dubbo.consumer.timeout}"/>
+
+</beans>

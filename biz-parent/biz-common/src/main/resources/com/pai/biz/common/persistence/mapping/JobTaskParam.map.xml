@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.common.persistence.entity.JobTaskParamPo">
+	<resultMap id="JobTaskParamPo" type="com.pai.biz.common.persistence.entity.JobTaskParamPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="jobId" column="job_id_" jdbcType="VARCHAR"/>
+		<result property="paramKey" column="param_key" jdbcType="VARCHAR"/>
+		<result property="paramValue" column="param_value" jdbcType="VARCHAR"/>
+		<result property="valueType" column="value_type" jdbcType="VARCHAR"/>
+		
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="bean" column="bean" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.common.persistence.entity.JobTaskParamPo">
+		INSERT INTO pai_job_task_param
+		(id_,job_id_,param_key,param_value,value_type)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}, #{paramKey,jdbcType=VARCHAR}, #{paramValue,jdbcType=VARCHAR}, #{valueType,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="JobTaskParamPo">
+		SELECT * FROM pai_job_task_param 
+		WHERE 
+		id_=#{id}
+		LIMIT 1
+	</select>
+	
+	<select id="getLast" resultMap="JobTaskParamPo">
+    	select * from pai_job_task_param where id_ = (select max(id_) from pai_job_task_param)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_job_task_param
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="JobTaskParamPo">
+		SELECT a.*,b.`name`,b.`bean` FROM pai_job_task_param a INNER JOIN pai_job_task b ON a.job_id_=b.id_
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id_ DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="JobTaskParamPo">
+		SELECT * FROM pai_job_task_param
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.common.persistence.entity.JobTaskParamPo">
+		UPDATE pai_job_task_param SET
+		job_id_=#{jobId,jdbcType=VARCHAR},
+		param_key=#{paramKey,jdbcType=VARCHAR},
+		param_value=#{paramValue,jdbcType=VARCHAR},
+		value_type=#{valueType,jdbcType=VARCHAR}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_job_task_param 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE pai_job_task_param 
+		<set>
+			<if test="entity.jobId!=null">
+				job_id_=#{jobId,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.paramKey!=null">
+				param_key=#{paramKey,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.paramValue!=null">
+				param_value=#{paramValue,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.valueType!=null">
+				value_type=#{valueType,jdbcType=VARCHAR}
+			</if>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+	</update>
+	
+	<select id="findParamByJobTaskId" parameterType="java.util.Map" resultMap="JobTaskParamPo">
+		SELECT * FROM pai_job_task_param where job_id_ = #{jobId}
+	</select>
+	
+</mapper>

@@ -1,0 +1,23 @@
+body{ font-size:12px;}
+.l-table-edit {}
+.l-table-edit-td{ padding:4px;}
+.l-button-submit,.l-button-test{width:80px; float:left; margin-left:10px; padding-bottom:2px;}
+.l-verify-tip{ left:230px; top:120px;}
+
+/*验证表单字段样式*/
+label.error {
+	background: url(../images/unchecked.gif) no-repeat 0px 0px;
+	margin-left: 16px;
+	padding-left: 16px;
+	padding-bottom: 2px;
+	font-weight: bold;
+	color: #EA5200;
+}
+table.listTable tr.listRow td{
+	border:1px solid #366092;
+	text-align: center;
+	height: 23px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+

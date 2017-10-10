@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.message.persistence.entity.MessageNotifyPo">
+	<resultMap id="MessageNotifyPo" type="com.pai.biz.message.persistence.entity.MessageNotifyPo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+		<result property="latestNotifyTime" column="latest_notify_time" jdbcType="TIMESTAMP"/>
+		<result property="notifyTimes" column="notify_times" jdbcType="NUMERIC"/>
+		<result property="url" column="url" jdbcType="VARCHAR"/>
+		<result property="paramBody" column="param_body" jdbcType="VARCHAR"/>
+		<result property="status" column="status" jdbcType="VARCHAR"/>
+		<result property="notifyType" column="notify_type" jdbcType="VARCHAR"/>
+		<result property="successVal" column="success_val" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.message.persistence.entity.MessageNotifyPo">
+		INSERT INTO pai_message_notify
+		(`id_`,`create_time`,`update_time`,`latest_notify_time`,`notify_times`,`url`,`param_body`,`status`,`notify_type`,`success_val`)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{latestNotifyTime,jdbcType=TIMESTAMP}, #{notifyTimes,jdbcType=NUMERIC}, #{url,jdbcType=VARCHAR}, #{paramBody,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{notifyType,jdbcType=VARCHAR}, #{successVal,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="MessageNotifyPo">
+		SELECT * FROM pai_message_notify 
+		WHERE 
+		`id_`=#{id}
+		LIMIT 1
+	</select>
+	
+	<select id="getLast" resultMap="MessageNotifyPo">
+    	select * from pai_message_notify where `id_` = (select max(`id_`) from pai_message_notify)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_message_notify
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="MessageNotifyPo">
+		SELECT * FROM pai_message_notify
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY `id_` DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="MessageNotifyPo">
+		SELECT * FROM pai_message_notify
+			WHERE `id_` in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY `id_` 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.message.persistence.entity.MessageNotifyPo">
+		UPDATE pai_message_notify SET
+		`create_time`=#{createTime,jdbcType=TIMESTAMP},
+		`update_time`=#{updateTime,jdbcType=TIMESTAMP},
+		`notify_times`=#{notifyTimes,jdbcType=NUMERIC},
+		`latest_notify_time`=#{latestNotifyTime,jdbcType=NUMERIC},
+		`url`=#{url,jdbcType=VARCHAR},
+		`param_body`=#{paramBody,jdbcType=VARCHAR},
+		`status`=#{status,jdbcType=VARCHAR},
+		`notify_type`=#{notifyType,jdbcType=VARCHAR},
+		`success_val`=#{successVal,jdbcType=VARCHAR}
+		WHERE
+		`id_`=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_message_notify 
+		WHERE
+		`id_`=#{id}
+	</delete>
+	
+	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE pai_message_notify 
+		<set>
+			<if test="entity.createTime!=null">
+				`create_time`=#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="entity.updateTime!=null">
+				`update_time`=#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="entity.latestNotifyTime!=null">
+				`latest_notify_time`=#{latestNotifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="entity.notifyTimes!=null">
+				`notify_times`=#{notifyTimes,jdbcType=NUMERIC},
+			</if>
+			<if test="entity.url!=null">
+				`url`=#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.paramBody!=null">
+				`param_body`=#{paramBody,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.status!=null">
+				`status`=#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.notifyType!=null">
+				`notify_type`=#{notifyType,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.successVal!=null">
+				`success_val`=#{successVal,jdbcType=VARCHAR}
+			</if>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+	</update>
+	
+	<select id="findUsedMessageNotifys" parameterType="java.util.Map" resultMap="MessageNotifyPo">
+		SELECT * FROM pai_message_notify WHERE status != 'SUCCESS' AND notify_times &lt; #{notifyTimes,jdbcType=NUMERIC}
+	</select>
+</mapper>

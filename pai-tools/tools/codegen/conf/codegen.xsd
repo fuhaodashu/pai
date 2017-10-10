@@ -109,6 +109,99 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>		
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+				<xs:element name="rpccontrollerFiles" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="file">
+								<xs:complexType>
+									<xs:attributeGroup ref="fileAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="rpccontrollerDirs" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="dir" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attributeGroup ref="dirAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+				<xs:element name="viewFiles" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="file">
+								<xs:complexType>
+									<xs:attributeGroup ref="fileAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="viewDirs" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="dir" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attributeGroup ref="dirAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="serviceFiles" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="file">
+								<xs:complexType>
+									<xs:attributeGroup ref="fileAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="serviceDirs" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="dir" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attributeGroup ref="dirAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="baseserviceFiles" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="file">
+								<xs:complexType>
+									<xs:attributeGroup ref="fileAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="baseserviceDirs" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="dir" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attributeGroup ref="dirAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+=======
 				<xs:element name="viewFiles" maxOccurs="unbounded" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence minOccurs="1" maxOccurs="unbounded">
@@ -131,6 +224,79 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>		
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+				<xs:element name="viewFiles" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="file">
+								<xs:complexType>
+									<xs:attributeGroup ref="fileAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="viewDirs" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="dir" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attributeGroup ref="dirAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+				<xs:element name="viewFiles" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="file">
+								<xs:complexType>
+									<xs:attributeGroup ref="fileAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="viewDirs" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="dir" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attributeGroup ref="dirAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
+=======
+				<xs:element name="viewFiles" maxOccurs="unbounded" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="file">
+								<xs:complexType>
+									<xs:attributeGroup ref="fileAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="viewDirs" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>					
+							<xs:element name="dir" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attributeGroup ref="dirAttr"></xs:attributeGroup>
+								</xs:complexType>
+							</xs:element>							
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>		
+>>>>>>> branch 'master' of https://github.com/fuhaodashu/pai.git
 				<xs:element name="apiBaseFiles" maxOccurs="unbounded" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence minOccurs="1" maxOccurs="unbounded">

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pai.biz.member.persistence.entity.MemberFamePo">
+	<resultMap id="MemberFamePo" type="com.pai.biz.member.persistence.entity.MemberFamePo">
+		<id property="id" column="id_" jdbcType="VARCHAR"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="organization" column="organization" jdbcType="VARCHAR"/>
+		<result property="vocation" column="vocation" jdbcType="VARCHAR"/>
+		<result property="gender" column="gender" jdbcType="VARCHAR"/>
+		<result property="story" column="story" jdbcType="CLOB"/>
+		<result property="source" column="source" jdbcType="VARCHAR"/>
+		<result property="achievement" column="achievement" jdbcType="VARCHAR"/>
+		<result property="education" column="education" jdbcType="VARCHAR"/>
+		<result property="background" column="background" jdbcType="VARCHAR"/>
+		<result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.pai.biz.member.persistence.entity.MemberFamePo">
+		INSERT INTO pai_member_fame
+		(`id_`,`name`,`organization`,`vocation`,`gender`,`story`,`source`,`achievement`,`education`,`background`,`create_by`,`create_time`,`update_by`,`update_time`)
+		VALUES 
+		(#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{organization,jdbcType=VARCHAR}, #{vocation,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{story,jdbcType=CLOB}, #{source,jdbcType=VARCHAR}, #{achievement,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{background,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="MemberFamePo">
+		SELECT * FROM pai_member_fame 
+		WHERE 
+		id_=#{id}
+		LIMIT 1
+	</select>
+	
+	<select id="getLast" resultMap="MemberFamePo">
+    	select * from pai_member_fame where id_ = (select max(id_) from pai_member_fame)
+    </select>
+	
+	<select id="countAll" resultType="int">
+    	select count(*) _total from pai_member_fame
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>    	
+    </select>	
+	
+	<select id="find" parameterType="java.util.Map" resultMap="MemberFamePo">
+		SELECT * FROM pai_member_fame
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+		<if test="orderBySql!=null">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="orderBySql==null">
+			ORDER BY id_ DESC
+		</if>
+	</select>
+	
+	<select id="findByIds"   resultMap="MemberFamePo">
+		SELECT * FROM pai_member_fame
+			WHERE id_ in 
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">  
+  				#{id}  
+ 			</foreach>  		
+			ORDER BY id_ 				
+	</select>	
+	
+	<update id="update" parameterType="com.pai.biz.member.persistence.entity.MemberFamePo">
+		UPDATE pai_member_fame SET
+		`name`=#{name,jdbcType=VARCHAR},
+		`organization`=#{organization,jdbcType=VARCHAR},
+		`vocation`=#{vocation,jdbcType=VARCHAR},
+		`gender`=#{gender,jdbcType=VARCHAR},
+		`story`=#{story,jdbcType=CLOB},
+		`source`=#{source,jdbcType=VARCHAR},
+		`achievement`=#{achievement,jdbcType=VARCHAR},
+		`education`=#{education,jdbcType=VARCHAR},
+		`background`=#{background,jdbcType=VARCHAR},
+		`create_by`=#{createBy,jdbcType=VARCHAR},
+		`create_time`=#{createTime,jdbcType=TIMESTAMP},
+		`update_by`=#{updateBy,jdbcType=VARCHAR},
+		`update_time`=#{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+		id_=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM pai_member_fame 
+		WHERE
+		id_=#{id}
+	</delete>
+	
+	
+	<update id="updateByExampleSelective" parameterType="java.util.Map">
+		UPDATE pai_member_fame 
+		<set>
+			<if test="entity.name!=null">
+				`name`=#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.organization!=null">
+				`organization`=#{organization,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.vocation!=null">
+				`vocation`=#{vocation,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.gender!=null">
+				`gender`=#{gender,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.story!=null">
+				`story`=#{story,jdbcType=CLOB},
+			</if>
+			<if test="entity.source!=null">
+				`source`=#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.achievement!=null">
+				`achievement`=#{achievement,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.education!=null">
+				`education`=#{education,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.background!=null">
+				`background`=#{background,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.createBy!=null">
+				`create_by`=#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.createTime!=null">
+				`create_time`=#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="entity.updateBy!=null">
+				`update_by`=#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="entity.updateTime!=null">
+				`update_time`=#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		<where>
+			<if test="whereSql!=null">
+				${whereSql}
+			</if>
+		</where>
+	</update>
+</mapper>
